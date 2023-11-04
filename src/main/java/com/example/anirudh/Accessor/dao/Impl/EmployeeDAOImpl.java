@@ -20,7 +20,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() {
         // Note - createQuery - String arg shows error during compileTime but no effect during runtime.
-        TypedQuery<Employee> getAllEmployeesQuery = entityManager.createQuery("from employee", Employee.class);
+        TypedQuery<Employee> getAllEmployeesQuery = entityManager.createQuery("from Employee", Employee.class);
         return getAllEmployeesQuery.getResultList();
     }
 }
