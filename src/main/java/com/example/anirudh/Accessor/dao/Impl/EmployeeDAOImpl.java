@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Repository
@@ -33,5 +34,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void deleteEmployee(int employeeId) {
         Employee employeeToDelete = entityManager.find(Employee.class, employeeId);
         entityManager.remove(employeeToDelete);
+    }
+
+    @Override
+    public Employee getEmployeeById(int employeeId) {
+        return entityManager.find(Employee.class, employeeId);
     }
 }
