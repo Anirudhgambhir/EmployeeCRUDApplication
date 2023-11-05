@@ -1,6 +1,7 @@
 package com.example.anirudh.rest;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeRestController {
-    //TODO: Move EmployeeDAO dependency Injection to Service Layer.
-    private final EmployeeDAO employeeDAO;
+    private final EmployeeService employeeService;
 
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
-        return employeeDAO.getAllEmployees();
+        return employeeService.getAllEmployees();
     }
 
 
