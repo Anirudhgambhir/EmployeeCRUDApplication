@@ -34,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee saveEmployee(Employee employee) {
         long startTime = System.currentTimeMillis();
         log.info("Starting saveEmployee");
+        validate.saveEmployeeValidator(employee);
         Employee e = employeeDAO.save(employee);
         log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
         return e;
