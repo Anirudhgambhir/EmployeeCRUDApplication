@@ -1,16 +1,7 @@
 package com.example.anirudh.Accessor.dao;
 
 import com.example.anirudh.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface EmployeeDAO {
-
-    List<Employee> getAllEmployees();
-
-    Employee saveEmployee(Employee employee);
-
-    void deleteEmployee(int employeeId);
-
-    Employee getEmployeeById(int employeeId);
+public interface EmployeeDAO extends JpaRepository<Employee, Integer> {
 }
