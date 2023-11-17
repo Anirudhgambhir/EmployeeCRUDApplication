@@ -1,8 +1,17 @@
 package com.example.anirudh.di;
 
+import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.cacheManager.CacheManager;
+import com.example.anirudh.cacheManager.CacheUpdateTask;
+import com.example.anirudh.cacheManager.EmployeeCacheLoader;
+import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.LoadingCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class CommonDI {
@@ -10,5 +19,16 @@ public class CommonDI {
     @Bean
     public ObjectMapper getObjectMapper() {
         return new ObjectMapper();
+    }
+
+    @Bean
+    public LoadingCache<Integer, Employee> EmployeeCache(EmployeeDAO employeeDAO) {
+        return CacheBuilder.newBuilder().refreshAfterWrite(5, TimeUnit.MINUTES)
+                .maximumSize(1500).build(new EmployeeCacheLoader(employeeDAO));
+    }
+
+    @Bean
+    public CacheManager employeeCache(EmployeeDAO employeeDAO, LoadingCache<Integer, Employee> employeeCache){
+        return new CacheManager(employeeDAO, employeeCache);
     }
 }

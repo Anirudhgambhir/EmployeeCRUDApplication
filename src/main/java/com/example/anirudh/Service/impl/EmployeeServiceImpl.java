@@ -4,6 +4,7 @@ import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.Exceptions.EmployeeNotFoundException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
+import com.example.anirudh.cacheManager.CacheManager;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,14 +23,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeDAO employeeDAO;
     private final EmployeeServiceValidator validate;
-
     private final ObjectMapper jsonObjectMapper;
+    private final CacheManager employeeCache;
 
     @Override
     public List<Employee> getAllEmployees() {
         long startTime = System.currentTimeMillis();
         log.info("Starting getAllEmployees");
-        List<Employee> employees = employeeDAO.findAll();
+        List<Employee> employees = employeeCache.getAll();
         log.info("getAllEmployees finished the request in {} ms", System.currentTimeMillis() - startTime);
         return employees;
     }
