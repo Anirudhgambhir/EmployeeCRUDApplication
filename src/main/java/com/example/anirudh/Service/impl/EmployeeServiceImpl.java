@@ -5,6 +5,8 @@ import com.example.anirudh.Exceptions.EmployeeNotFoundException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
 import com.example.anirudh.model.Employee;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDAO employeeDAO;
     private final EmployeeServiceValidator validate;
 
+    private final ObjectMapper jsonObjectMapper;
+
     @Override
     public List<Employee> getAllEmployees() {
         long startTime = System.currentTimeMillis();
@@ -31,11 +35,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) throws JsonProcessingException {
         long startTime = System.currentTimeMillis();
         log.info("Starting saveEmployee");
+        log.info("Request Body :- {}", jsonObjectMapper.writeValueAsString(employee));
         validate.saveEmployeeValidator(employee);
         Employee e = employeeDAO.save(employee);
+        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(e));
         log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
         return e;
     }
@@ -49,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeById(int employeeId) {
+    public Employee getEmployeeById(int employeeId) throws JsonProcessingException {
         Employee employeeToBeReturned;
         long startTime = System.currentTimeMillis();
         log.info("Starting getEmployeeById");
@@ -59,7 +65,16 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeToBeReturned = employee.get();
         else
             throw new EmployeeNotFoundException(String.format("No Employee Present with the ID : %d", employeeId));
+        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(employeeToBeReturned));
         log.info("getEmployeeById finished the request in {} ms", System.currentTimeMillis() - startTime);
         return employeeToBeReturned;
+    }
+
+    public List<Employee> getEmployeesByCompanyName(String companyName) {
+        long startTime = System.currentTimeMillis();
+        log.info("Starting getEmployeesByCompanyName");
+        List<Employee> employeesByCompanyName = employeeDAO.getEmployeesByCompanyName(companyName);
+        log.info("getEmployeesByCompanyName finished the request in {} ms", System.currentTimeMillis() - startTime);
+        return employeesByCompanyName;
     }
 }

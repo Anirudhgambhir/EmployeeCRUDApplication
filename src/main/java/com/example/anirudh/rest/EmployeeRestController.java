@@ -2,6 +2,7 @@ package com.example.anirudh.rest;
 
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.model.Employee;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,18 +28,23 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployeeById(@PathVariable int employeeId) {
+    public Employee getEmployeeById(@PathVariable int employeeId) throws JsonProcessingException {
         return employeeService.getEmployeeById(employeeId);
     }
 
+    @GetMapping("/companies/{companyName}")
+    public List<Employee> getEmployeesByCompanyName(@PathVariable String companyName) {
+        return employeeService.getEmployeesByCompanyName(companyName);
+    }
+
     @PostMapping("/employees")
-    public Employee saveEmployee(@RequestBody Employee newEmployee) {
+    public Employee saveEmployee(@RequestBody Employee newEmployee) throws JsonProcessingException {
         newEmployee.setId(0);
         return employeeService.saveEmployee(newEmployee);
     }
 
     @PutMapping("/employees")
-    public Employee updateEmployee(@RequestBody Employee newEmployee) {
+    public Employee updateEmployee(@RequestBody Employee newEmployee) throws JsonProcessingException {
         return employeeService.saveEmployee(newEmployee);
     }
 
