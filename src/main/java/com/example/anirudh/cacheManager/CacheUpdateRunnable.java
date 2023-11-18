@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CacheUpdateRunnable implements Runnable{
 
-    private final CacheManager cacheManager;
+    private final EmployeeCache cacheManager;
 
     @Override
     public void run() {
+        log.info("Cache Update Begin");
          cacheManager.update();
+        log.info("Cache Update successfully completed");
     }
 }

@@ -3,6 +3,7 @@ package com.example.anirudh.di;
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.cacheManager.CacheManager;
 import com.example.anirudh.cacheManager.CacheUpdateTask;
+import com.example.anirudh.cacheManager.EmployeeCache;
 import com.example.anirudh.cacheManager.EmployeeCacheLoader;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +29,17 @@ public class CommonDI {
     }
 
     @Bean
-    public CacheManager employeeCache(EmployeeDAO employeeDAO, LoadingCache<Integer, Employee> employeeCache){
-        return new CacheManager(employeeDAO, employeeCache);
+    public EmployeeCache employeeCache(EmployeeDAO employeeDAO, LoadingCache<Integer, Employee> employeeCache){
+        return new EmployeeCache(employeeDAO, employeeCache);
+    }
+
+    @Bean
+    public CacheUpdateTask cacheUpdateTask(EmployeeCache employeeCache) {
+        return new CacheUpdateTask(employeeCache);
+    }
+
+    @Bean
+    public CacheManager cacheManager(EmployeeCache employeeCache, CacheUpdateTask cacheUpdateTask) {
+        return new CacheManager(employeeCache, cacheUpdateTask);
     }
 }
