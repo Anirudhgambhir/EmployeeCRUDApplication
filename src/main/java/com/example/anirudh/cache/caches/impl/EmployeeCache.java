@@ -1,12 +1,12 @@
-package com.example.anirudh.cacheManager;
+package com.example.anirudh.cache.caches.impl;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.cache.caches.InMemoryCache;
 import com.example.anirudh.model.Employee;
 import com.google.common.cache.LoadingCache;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +48,8 @@ public class EmployeeCache implements InMemoryCache {
     }
 
     @Override
-    public Employee get(Employee employee) {
-        return employeeCache.getIfPresent(employee.getId());
+    public Employee get(int employeeId) {
+        return employeeCache.getIfPresent(employeeId);
     }
 
     @Override

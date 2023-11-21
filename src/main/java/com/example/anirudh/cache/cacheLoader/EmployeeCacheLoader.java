@@ -1,16 +1,14 @@
-package com.example.anirudh.cacheManager;
+package com.example.anirudh.cache.cacheLoader;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.model.Employee;
 import com.google.common.cache.CacheLoader;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Slf4j
@@ -40,6 +38,5 @@ public class EmployeeCacheLoader extends CacheLoader<Integer, Employee> {
                 }
                 );
         return task;
-//        return super.reload(key, oldValue);
     }
 }

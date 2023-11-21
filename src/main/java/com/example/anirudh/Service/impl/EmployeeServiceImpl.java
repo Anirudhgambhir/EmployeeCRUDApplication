@@ -4,7 +4,7 @@ import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.Exceptions.EmployeeNotFoundException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
-import com.example.anirudh.cacheManager.EmployeeCache;
+import com.example.anirudh.cache.caches.impl.EmployeeCache;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -28,6 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees() {
+        // TODO: Add the functionality to get Data directly from DB if required.
         long startTime = System.currentTimeMillis();
         log.info("Starting getAllEmployees");
         List<Employee> employees = employeeCache.getAll();
@@ -57,18 +60,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(int employeeId) throws JsonProcessingException {
-        Employee employeeToBeReturned;
+        //TODO: Refactor the API code.
+        Employee employee;
         long startTime = System.currentTimeMillis();
         log.info("Starting getEmployeeById");
         validate.getEmployeeByIdValidator(employeeId);
-        Optional<Employee> employee = employeeDAO.findById(employeeId);
-        if (employee.isPresent())
-            employeeToBeReturned = employee.get();
+        employee = employeeCache.get(employeeId);
+        if (Objects.nonNull(employee)) {
+            return employee;
+        }
+        Optional<Employee> employeeOptional = employeeDAO.findById(employeeId);
+        if (employeeOptional.isPresent()) {
+            employee = employeeOptional.get();
+        }
         else
-            throw new EmployeeNotFoundException(String.format("No Employee Present with the ID : %d", employeeId));
-        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(employeeToBeReturned));
+            throw new EmployeeNotFoundException("EmployeeNotFoundException - Employee Not Present");
+        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(employee));
         log.info("getEmployeeById finished the request in {} ms", System.currentTimeMillis() - startTime);
-        return employeeToBeReturned;
+        return employee;
     }
 
     public List<Employee> getEmployeesByCompanyName(String companyName) {

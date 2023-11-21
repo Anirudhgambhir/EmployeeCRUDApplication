@@ -1,10 +1,10 @@
 package com.example.anirudh.di;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
-import com.example.anirudh.cacheManager.CacheManager;
-import com.example.anirudh.cacheManager.CacheUpdateTask;
-import com.example.anirudh.cacheManager.EmployeeCache;
-import com.example.anirudh.cacheManager.EmployeeCacheLoader;
+import com.example.anirudh.cache.CacheManager;
+import com.example.anirudh.cache.cacheUpdate.CacheUpdateTask;
+import com.example.anirudh.cache.caches.impl.EmployeeCache;
+import com.example.anirudh.cache.cacheLoader.EmployeeCacheLoader;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
