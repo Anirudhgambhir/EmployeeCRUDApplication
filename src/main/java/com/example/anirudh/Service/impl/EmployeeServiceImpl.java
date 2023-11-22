@@ -4,7 +4,7 @@ import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.Exceptions.EmployeeNotFoundException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
-import com.example.anirudh.cache.caches.impl.EmployeeCache;
+import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,14 +25,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDAO employeeDAO;
     private final EmployeeServiceValidator validate;
     private final ObjectMapper jsonObjectMapper;
-    private final EmployeeCache employeeCache;
+    private final CacheManager cacheManager;
 
     @Override
     public List<Employee> getAllEmployees() {
         // TODO: Add the functionality to get Data directly from DB if required.
         long startTime = System.currentTimeMillis();
         log.info("Starting getAllEmployees");
-        List<Employee> employees = employeeCache.getAll();
+        List<Employee> employees = cacheManager.getAllEmployees();
         log.info("getAllEmployees finished the request in {} ms", System.currentTimeMillis() - startTime);
         return employees;
     }
@@ -65,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         long startTime = System.currentTimeMillis();
         log.info("Starting getEmployeeById");
         validate.getEmployeeByIdValidator(employeeId);
-        employee = employeeCache.get(employeeId);
+        employee = cacheManager.getEmployee(employeeId);
         if (Objects.nonNull(employee)) {
             return employee;
         }
