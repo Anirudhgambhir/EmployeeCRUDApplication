@@ -1,12 +1,9 @@
 package com.example.anirudh.manager;
 
-import com.example.anirudh.Accessor.dao.EmployeeDAO;
-import com.example.anirudh.Accessor.dao.EmployeeInformationCacheAccessor;
+import com.example.anirudh.Accessor.EmployeeInformationCacheAccessor;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
-import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
-import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
