@@ -18,28 +18,20 @@ public class EmployeeServiceValidator {
     }
 
     public boolean saveEmployeeValidator(Employee employee) {
-        // First Name
-        Validate.notBlank(employee.getFirstName());
-        if (employee.getFirstName().length() > 45)
-            throw new InvalidRequestException("Employee first name length can be max of 45 characters");
-
-        // Last Name
-        Validate.notBlank(employee.getLastName());
-        if (employee.getLastName().length() > 45)
-            throw new InvalidRequestException("Employee last name length can be max of 45 characters");
-
-        // email
-        Validate.notBlank(employee.getEmail());
-        if (employee.getEmail().length() > 45)
-            throw new InvalidRequestException("Employee email length can be max of 45 characters");
-        Validate.isTrue(EmailValidator.getInstance().isValid(employee.getEmail()),
-                String.format("email provided - %s is not valid", employee.getEmail()));
-
-        // company
-        Validate.notBlank(employee.getCompanyName());
-        if (employee.getCompanyName().length() > 45)
-            throw new InvalidRequestException("Employee company length can be max of 45 characters");
-
+        try {
+            Validate.notBlank(employee.getFirstName());
+            Validate.notBlank(employee.getLastName());
+            Validate.notBlank(employee.getEmail());
+            Validate.notBlank(employee.getCompanyName());
+            Validate.isTrue(EmailValidator.getInstance().isValid(employee.getEmail()),
+                    String.format("email provided - %s is not valid", employee.getEmail()));
+            if (employee.getLastName().length() > 45 || employee.getFirstName().length() > 45
+                    || employee.getEmail().length() > 45 || employee.getCompanyName().length() > 45)
+                throw new InvalidRequestException("Employee last name length can be max of 45 characters");
+        }
+        catch (Exception exception) {
+            throw new InvalidRequestException(exception.getMessage());
+        }
         return true;
     }
 }

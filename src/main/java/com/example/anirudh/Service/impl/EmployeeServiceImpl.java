@@ -26,8 +26,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeDAO employeeDAO;
     private final EmployeeServiceValidator validate;
     private final ObjectMapper jsonObjectMapper;
-    private final CacheManager cacheManager;
-
     private final EmployeeManager employeeManager;
 
     @Override
@@ -48,14 +46,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee saveEmployee(Employee employee) throws JsonProcessingException {
-        long startTime = System.currentTimeMillis();
-        log.info("Starting saveEmployee");
-        log.info("Request Body :- {}", jsonObjectMapper.writeValueAsString(employee));
-        validate.saveEmployeeValidator(employee);
-        Employee e = employeeDAO.save(employee);
-        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(e));
-        log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
-        return e;
+        try {
+            long startTime = System.currentTimeMillis();
+            log.info("Starting saveEmployee");
+            log.info("Request Body :- {}", jsonObjectMapper.writeValueAsString(employee));
+            validate.saveEmployeeValidator(employee);
+            Employee e = employeeDAO.save(employee);
+            log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(e));
+            log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
+            return e;
+        }
+        catch (Exception e) {
+            log.error("{} exception caught during execution - {}"
+                    , e.getClass().getSimpleName(), e.getMessage());
+            throw new RequestFailureException(String.format("%s exception caught during execution - %s"
+                    , e.getClass().getSimpleName(), e.getMessage()));
+        }
     }
 
     @Override

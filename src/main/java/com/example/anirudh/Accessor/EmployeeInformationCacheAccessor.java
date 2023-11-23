@@ -36,6 +36,8 @@ public class EmployeeInformationCacheAccessor {
     }
 
     public List<Employee> getAllEmployees(boolean realTimeDataRequired) {
+        //TODO: Fix realTimeDataRequired issue : Currently all calls are going to Cache only
+        // GET request does not support requestBody, need to find alternative solution for this.
         return realTimeDataRequired ? employeeDAO.findAll() : cacheManager.getAllEmployees();
     }
 
