@@ -2,6 +2,8 @@ package com.example.anirudh.rest;
 
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.model.Employee;
+import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
+import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,8 +26,8 @@ public class EmployeeRestController {
     private final EmployeeService employeeService;
 
     @GetMapping("/employees")
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public GetAllEmployeeOutput getAllEmployees(@RequestBody(required = false) GetAllEmployeeInput getAllEmployeeInput) {
+        return employeeService.getAllEmployees(getAllEmployeeInput);
     }
 
     @GetMapping("/employees/{employeeId}")

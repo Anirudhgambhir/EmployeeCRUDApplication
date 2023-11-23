@@ -1,13 +1,14 @@
 package com.example.anirudh.Service.impl;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
-import com.example.anirudh.Exceptions.EmployeeNotFoundException;
 import com.example.anirudh.Exceptions.RequestFailureException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
 import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.manager.EmployeeManager;
 import com.example.anirudh.model.Employee;
+import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
+import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,13 +31,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeManager employeeManager;
 
     @Override
-    public List<Employee> getAllEmployees() {
-        // TODO: Add the functionality to get Data directly from DB if required.
-        long startTime = System.currentTimeMillis();
-        log.info("Starting getAllEmployees");
-        List<Employee> employees = cacheManager.getAllEmployees();
-        log.info("getAllEmployees finished the request in {} ms", System.currentTimeMillis() - startTime);
-        return employees;
+    public GetAllEmployeeOutput getAllEmployees(GetAllEmployeeInput getAllEmployeeInput) {
+        try {
+            long startTime = System.currentTimeMillis();
+            log.info("Starting getAllEmployees");
+            List<Employee> employees = employeeManager.getAllEmployeesManager(getAllEmployeeInput);
+            log.info("getAllEmployees finished the request in {} ms", System.currentTimeMillis() - startTime);
+            return GetAllEmployeeOutput.builder().employeeList(employees).build();
+        } catch (Exception ex) {
+            log.error("{} exception caught during execution - {}"
+                    , ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RequestFailureException(String.format("%s exception caught during execution - %s"
+                    , ex.getClass().getSimpleName(), ex.getMessage()));
+        }
     }
 
     @Override
@@ -66,8 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             log.info("Starting getEmployeeById");
             return employeeManager.getEmployeeByIdManager(employeeId);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             log.error("{} exception caught during execution - {}"
                     , ex.getClass().getSimpleName(), ex.getMessage());
             throw new RequestFailureException(String.format("%s exception caught during execution - %s"

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,16 +22,20 @@ public class EmployeeInformationCacheAccessor {
         Employee employee = cacheManager.getEmployee(employeeId);
         // Fetching from DB
         if (Objects.isNull(employee)) {
-            //TODO: Add employee entry to cache if found in DB
             log.info("Employee not present in Cache... Fetching from DB");
-            employee = employeeDAO.findById(employeeId).orElse(null);
+            Optional<Employee> employeeOptional = employeeDAO.findById(employeeId);
+            employeeOptional.ifPresent(cacheManager::setEmployee);
+            employee = employeeOptional.orElse(null);
         }
-        if (Objects.isNull(employee)) {
-            log.error("Employee not present in DB...");
-            throw new EmployeeNotFoundException("Employee not present in DB...");
-        }
-        return employee;
+        if (Objects.nonNull(employee))
+            return employee;
+
+        log.error("Employee not present in DB...");
+        throw new EmployeeNotFoundException("Employee not present in DB...");
     }
-    //TODO: Implement the same for GetALL from Cache as well.
+
+    public List<Employee> getAllEmployees(boolean realTimeDataRequired) {
+        return realTimeDataRequired ? employeeDAO.findAll() : cacheManager.getAllEmployees();
+    }
 
 }

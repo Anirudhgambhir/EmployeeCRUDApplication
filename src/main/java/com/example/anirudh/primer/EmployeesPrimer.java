@@ -1,6 +1,7 @@
 package com.example.anirudh.primer;
 
 import com.example.anirudh.Service.EmployeeService;
+import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class EmployeesPrimer implements ApplicationListener<ApplicationReadyEven
     public void onApplicationEvent(ApplicationReadyEvent event) {
         log.info("Starting primer");
         for (int i = 0; i < 2; i++) {
-            employeeService.getAllEmployees();
+            employeeService.getAllEmployees(GetAllEmployeeInput.builder().realTimeDataRequired(false).build());
         }
         log.info("finished primer Calls");
     }
