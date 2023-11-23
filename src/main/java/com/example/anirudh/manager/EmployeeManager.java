@@ -1,0 +1,29 @@
+package com.example.anirudh.manager;
+
+import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.Accessor.dao.EmployeeInformationCacheAccessor;
+import com.example.anirudh.Validator.EmployeeServiceValidator;
+import com.example.anirudh.cache.CacheManager;
+import com.example.anirudh.model.Employee;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class EmployeeManager {
+    private final EmployeeServiceValidator validate;
+    private final ObjectMapper jsonObjectMapper;
+    private final EmployeeInformationCacheAccessor employeeInformationCacheAccessor;
+
+    public Employee getEmployeeByIdManager(int employeeId) throws JsonProcessingException {
+        long startTime = System.currentTimeMillis();
+        validate.getEmployeeByIdValidator(employeeId);
+        Employee employee = employeeInformationCacheAccessor.getEmployee(employeeId);
+        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(employee));
+        log.info("getEmployeeById finished the request in {} ms", System.currentTimeMillis() - startTime);
+        return employee;
+    }
+}

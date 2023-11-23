@@ -1,10 +1,13 @@
 package com.example.anirudh.di;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.Accessor.dao.EmployeeInformationCacheAccessor;
+import com.example.anirudh.Validator.EmployeeServiceValidator;
 import com.example.anirudh.cache.CacheManager;
+import com.example.anirudh.cache.cacheLoader.EmployeeCacheLoader;
 import com.example.anirudh.cache.cacheUpdate.CacheUpdateTask;
 import com.example.anirudh.cache.caches.impl.EmployeeCache;
-import com.example.anirudh.cache.cacheLoader.EmployeeCacheLoader;
+import com.example.anirudh.manager.EmployeeManager;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
@@ -29,7 +32,7 @@ public class CommonDI {
     }
 
     @Bean
-    public EmployeeCache employeeCache(EmployeeDAO employeeDAO, LoadingCache<Integer, Employee> employeeCache){
+    public EmployeeCache employeeCache(EmployeeDAO employeeDAO, LoadingCache<Integer, Employee> employeeCache) {
         return new EmployeeCache(employeeDAO, employeeCache);
     }
 
@@ -41,5 +44,15 @@ public class CommonDI {
     @Bean
     public CacheManager cacheManager(EmployeeCache employeeCache, CacheUpdateTask cacheUpdateTask) {
         return new CacheManager(employeeCache, cacheUpdateTask);
+    }
+
+    @Bean
+    public EmployeeManager getEmployeeManager(EmployeeServiceValidator validate, ObjectMapper jsonObjectMapper, EmployeeInformationCacheAccessor employeeInformationCacheAccessor) {
+        return new EmployeeManager(validate, jsonObjectMapper, employeeInformationCacheAccessor);
+    }
+
+    @Bean
+    public EmployeeInformationCacheAccessor getEmployeeInformationCacheAccessor(EmployeeDAO employeeDAO, CacheManager cacheManager) {
+        return new EmployeeInformationCacheAccessor(employeeDAO, cacheManager);
     }
 }

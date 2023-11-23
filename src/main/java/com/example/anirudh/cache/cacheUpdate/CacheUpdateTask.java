@@ -15,6 +15,6 @@ public class CacheUpdateTask {
 
     public void setupCacheUpdate() {
         threadPoolExecutor.scheduleAtFixedRate(
-                new CacheUpdateRunnable(employeeCache), 300, 300, TimeUnit.SECONDS);
+                new CacheUpdateRunnable(employeeCache), 300, 600, TimeUnit.SECONDS);
     }
 }

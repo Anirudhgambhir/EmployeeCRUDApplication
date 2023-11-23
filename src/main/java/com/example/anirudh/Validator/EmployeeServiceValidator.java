@@ -8,7 +8,12 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class EmployeeServiceValidator {
 
     public boolean getEmployeeByIdValidator(int id){
-        Validate.isTrue(id > 0, "EmployeeId cannot be negative");
+        try {
+            Validate.isTrue(id > 0, "EmployeeId cannot be negative");
+        }
+        catch (Exception e) {
+            throw new InvalidRequestException(e.getMessage());
+        }
         return true;
     }
 

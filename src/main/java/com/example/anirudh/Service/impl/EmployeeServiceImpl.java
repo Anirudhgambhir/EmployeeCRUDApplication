@@ -2,9 +2,11 @@ package com.example.anirudh.Service.impl;
 
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.Exceptions.EmployeeNotFoundException;
+import com.example.anirudh.Exceptions.RequestFailureException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
 import com.example.anirudh.cache.CacheManager;
+import com.example.anirudh.manager.EmployeeManager;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +28,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeServiceValidator validate;
     private final ObjectMapper jsonObjectMapper;
     private final CacheManager cacheManager;
+
+    private final EmployeeManager employeeManager;
 
     @Override
     public List<Employee> getAllEmployees() {
@@ -59,24 +63,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(int employeeId) throws JsonProcessingException {
-        //TODO: Refactor the API code.
-        Employee employee;
-        long startTime = System.currentTimeMillis();
-        log.info("Starting getEmployeeById");
-        validate.getEmployeeByIdValidator(employeeId);
-        employee = cacheManager.getEmployee(employeeId);
-        if (Objects.nonNull(employee)) {
-            return employee;
+        try {
+            log.info("Starting getEmployeeById");
+            return employeeManager.getEmployeeByIdManager(employeeId);
         }
-        Optional<Employee> employeeOptional = employeeDAO.findById(employeeId);
-        if (employeeOptional.isPresent()) {
-            employee = employeeOptional.get();
+        catch (Exception ex) {
+            log.error("{} exception caught during execution - {}"
+                    , ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RequestFailureException(String.format("%s exception caught during execution - %s"
+                    , ex.getClass().getSimpleName(), ex.getMessage()));
         }
-        else
-            throw new EmployeeNotFoundException("EmployeeNotFoundException - Employee Not Present");
-        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(employee));
-        log.info("getEmployeeById finished the request in {} ms", System.currentTimeMillis() - startTime);
-        return employee;
     }
 
     public List<Employee> getEmployeesByCompanyName(String companyName) {
