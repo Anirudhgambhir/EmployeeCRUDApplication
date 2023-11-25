@@ -4,12 +4,10 @@ import com.example.anirudh.Accessor.dao.EmployeeDAO;
 import com.example.anirudh.Exceptions.RequestFailureException;
 import com.example.anirudh.Service.EmployeeService;
 import com.example.anirudh.Validator.EmployeeServiceValidator;
-import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.manager.EmployeeManager;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) throws JsonProcessingException {
+    public Employee saveEmployee(Employee employee) {
         try {
             long startTime = System.currentTimeMillis();
             log.info("Starting saveEmployee");
@@ -55,8 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(e));
             log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
             return e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("{} exception caught during execution - {}"
                     , e.getClass().getSimpleName(), e.getMessage());
             throw new RequestFailureException(String.format("%s exception caught during execution - %s"
@@ -73,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeById(int employeeId) throws JsonProcessingException {
+    public Employee getEmployeeById(int employeeId) {
         try {
             log.info("Starting getEmployeeById");
             return employeeManager.getEmployeeByIdManager(employeeId);
@@ -85,6 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
     public List<Employee> getEmployeesByCompanyName(String companyName) {
         long startTime = System.currentTimeMillis();
         log.info("Starting getEmployeesByCompanyName");
