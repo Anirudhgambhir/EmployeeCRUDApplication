@@ -1,6 +1,7 @@
 package com.example.anirudh.cache;
 
 import com.example.anirudh.cache.cacheUpdate.CacheUpdateTask;
+import com.example.anirudh.cache.caches.InMemoryCache;
 import com.example.anirudh.cache.caches.impl.EmployeeCache;
 import com.example.anirudh.model.Employee;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +12,12 @@ import java.util.List;
 @Slf4j
 public class CacheManager {
 
-    private final EmployeeCache employeeCache;
+    private final InMemoryCache employeeCache;
 
     private final CacheUpdateTask cacheUpdateTask;
 
     @Autowired
-    public CacheManager(EmployeeCache employeeCache, CacheUpdateTask cacheUpdateTask) {
+    public CacheManager(InMemoryCache employeeCache, CacheUpdateTask cacheUpdateTask) {
         this.employeeCache = employeeCache;
         this.cacheUpdateTask = cacheUpdateTask;
         buildCache();
