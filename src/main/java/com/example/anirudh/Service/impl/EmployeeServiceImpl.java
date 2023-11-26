@@ -1,14 +1,14 @@
 package com.example.anirudh.Service.impl;
 
-import com.example.anirudh.Accessor.dao.EmployeeDAO;
-import com.example.anirudh.Exceptions.RequestFailureException;
+import com.example.anirudh.API.DeleteEmployee;
+import com.example.anirudh.API.GetAllEmployees;
+import com.example.anirudh.API.GetEmployeeById;
+import com.example.anirudh.API.GetEmployeesByCompany;
+import com.example.anirudh.API.SaveEmployee;
 import com.example.anirudh.Service.EmployeeService;
-import com.example.anirudh.Validator.EmployeeServiceValidator;
-import com.example.anirudh.manager.EmployeeManager;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,73 +21,35 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeDAO employeeDAO;
-    private final EmployeeServiceValidator validate;
-    private final ObjectMapper jsonObjectMapper;
-    private final EmployeeManager employeeManager;
+    private final GetAllEmployees getAllEmployees;
+    private final SaveEmployee saveEmployee;
+    private final DeleteEmployee deleteEmployee;
+    private final GetEmployeeById getEmployeeById;
+    private final GetEmployeesByCompany getEmployeesByCompany;
 
     @Override
     public GetAllEmployeeOutput getAllEmployees(GetAllEmployeeInput getAllEmployeeInput) {
-        try {
-            long startTime = System.currentTimeMillis();
-            log.info("Starting getAllEmployees");
-            List<Employee> employees = employeeManager.getAllEmployeesManager(getAllEmployeeInput);
-            log.info("getAllEmployees finished the request in {} ms", System.currentTimeMillis() - startTime);
-            return GetAllEmployeeOutput.builder().employeeList(employees).build();
-        } catch (Exception ex) {
-            log.error("{} exception caught during execution - {}"
-                    , ex.getClass().getSimpleName(), ex.getMessage());
-            throw new RequestFailureException(String.format("%s exception caught during execution - %s"
-                    , ex.getClass().getSimpleName(), ex.getMessage()));
-        }
+        return getAllEmployees.getAllEmployeesAPI(getAllEmployeeInput);
     }
 
     @Override
     public Employee saveEmployee(Employee employee) {
-        try {
-            long startTime = System.currentTimeMillis();
-            log.info("Starting saveEmployee");
-            log.info("Request Body :- {}", jsonObjectMapper.writeValueAsString(employee));
-            validate.saveEmployeeValidator(employee);
-            Employee e = employeeDAO.save(employee);
-            log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(e));
-            log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
-            return e;
-        } catch (Exception e) {
-            log.error("{} exception caught during execution - {}"
-                    , e.getClass().getSimpleName(), e.getMessage());
-            throw new RequestFailureException(String.format("%s exception caught during execution - %s"
-                    , e.getClass().getSimpleName(), e.getMessage()));
-        }
+        return saveEmployee.saveEmployeeAPI(employee);
     }
 
     @Override
     public void deleteEmployee(int employeeId) {
-        long startTime = System.currentTimeMillis();
-        log.info("Starting deleteEmployee");
-        employeeDAO.deleteById(employeeId);
-        log.info("deleteEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
+        deleteEmployee.deleteEmployeeAPI(employeeId);
     }
 
     @Override
     public Employee getEmployeeById(int employeeId) {
-        try {
-            log.info("Starting getEmployeeById");
-            return employeeManager.getEmployeeByIdManager(employeeId);
-        } catch (Exception ex) {
-            log.error("{} exception caught during execution - {}"
-                    , ex.getClass().getSimpleName(), ex.getMessage());
-            throw new RequestFailureException(String.format("%s exception caught during execution - %s"
-                    , ex.getClass().getSimpleName(), ex.getMessage()));
-        }
+        return getEmployeeById.getEmployeeByIdAPI(employeeId);
+
     }
 
     @Override
     public List<Employee> getEmployeesByCompanyName(String companyName) {
-        long startTime = System.currentTimeMillis();
-        log.info("Starting getEmployeesByCompanyName");
-        List<Employee> employeesByCompanyName = employeeDAO.getEmployeesByCompanyName(companyName);
-        log.info("getEmployeesByCompanyName finished the request in {} ms", System.currentTimeMillis() - startTime);
-        return employeesByCompanyName;
+        return getEmployeesByCompany.getEmployeesByCompanyAPI(companyName);
     }
 }

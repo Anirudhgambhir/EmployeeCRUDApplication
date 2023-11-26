@@ -14,11 +14,17 @@ import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class EmployeeInformationCacheAccessor {
+public class EmployeeInformationCacheAccessor implements EmployeeInformationAccessor {
 
     private final EmployeeDAO employeeDAO;
     private final CacheManager cacheManager;
 
+    @Override
+    public Employee saveEmployee(Employee employee) {
+        throw new IllegalCallerException("Cache does not Support Save Employee Function");
+    }
+
+    @Override
     public Employee getEmployee(int employeeId) {
         Employee employee = cacheManager.getEmployee(employeeId);
         // Fetching from DB
@@ -35,10 +41,11 @@ public class EmployeeInformationCacheAccessor {
         throw new EmployeeNotFoundException("Employee not present in DB...");
     }
 
-    public List<Employee> getAllEmployees(boolean realTimeDataRequired) {
+    @Override
+    public List<Employee> getAllEmployees() {
         //TODO: Fix realTimeDataRequired issue : Currently all calls are going to Cache only
         // GET request does not support requestBody, need to find alternative solution for this.
-        return realTimeDataRequired ? employeeDAO.findAll() : cacheManager.getAllEmployees();
+        return cacheManager.getAllEmployees();
     }
 
 }

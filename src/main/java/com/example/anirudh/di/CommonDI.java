@@ -1,19 +1,20 @@
 package com.example.anirudh.di;
 
+import com.example.anirudh.Accessor.EmployeeInformationAccessor;
 import com.example.anirudh.Accessor.EmployeeInformationCacheAccessor;
+import com.example.anirudh.Accessor.EmployeeInformationDBAccessor;
 import com.example.anirudh.Accessor.dao.EmployeeDAO;
-import com.example.anirudh.Validator.EmployeeServiceValidator;
 import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.cache.cacheLoader.EmployeeCacheLoader;
 import com.example.anirudh.cache.cacheUpdate.CacheUpdateRunnable;
 import com.example.anirudh.cache.cacheUpdate.CacheUpdateTask;
 import com.example.anirudh.cache.caches.InMemoryCache;
 import com.example.anirudh.cache.caches.impl.EmployeeCache;
-import com.example.anirudh.manager.EmployeeManager;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -49,13 +50,15 @@ public class CommonDI {
     }
 
     @Bean
-    public EmployeeManager getEmployeeManager(EmployeeServiceValidator validate, ObjectMapper jsonObjectMapper, EmployeeInformationCacheAccessor employeeInformationCacheAccessor) {
-        return new EmployeeManager(validate, jsonObjectMapper, employeeInformationCacheAccessor);
+    @Qualifier("EmployeeInformationCacheAccessor")
+    public EmployeeInformationAccessor getEmployeeInformationCacheAccessor(EmployeeDAO employeeDAO, CacheManager cacheManager) {
+        return new EmployeeInformationCacheAccessor(employeeDAO, cacheManager);
     }
 
     @Bean
-    public EmployeeInformationCacheAccessor getEmployeeInformationCacheAccessor(EmployeeDAO employeeDAO, CacheManager cacheManager) {
-        return new EmployeeInformationCacheAccessor(employeeDAO, cacheManager);
+    @Qualifier("EmployeeInformationDBAccessor")
+    public EmployeeInformationAccessor getEmployeeInformationDBAccessor(EmployeeDAO employeeDAO) {
+        return new EmployeeInformationDBAccessor(employeeDAO);
     }
 
     @Bean
