@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface EmployeeInformationAccessor {
 
-    public Employee saveEmployee(Employee employee);
+    Employee saveEmployee(Employee employee);
 
-    public Employee getEmployee(int employeeId);
+    Employee getEmployee(int employeeId);
 
-    public List<Employee> getAllEmployees();
+    List<Employee> getAllEmployees();
 }
