@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 @Component
-public class EmployeesPrimer implements ApplicationListener<ApplicationReadyEvent> {
+public class EmployeesWarmup implements ApplicationListener<ApplicationReadyEvent> {
 
     private final EmployeeService employeeService;
 

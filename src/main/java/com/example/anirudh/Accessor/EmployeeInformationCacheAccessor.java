@@ -43,8 +43,6 @@ public class EmployeeInformationCacheAccessor implements EmployeeInformationAcce
 
     @Override
     public List<Employee> getAllEmployees() {
-        //TODO: Fix realTimeDataRequired issue : Currently all calls are going to Cache only
-        // GET request does not support requestBody, need to find alternative solution for this.
         return cacheManager.getAllEmployees();
     }
 
