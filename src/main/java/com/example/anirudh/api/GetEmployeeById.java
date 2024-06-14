@@ -1,7 +1,7 @@
-package com.example.anirudh.API;
+package com.example.anirudh.api;
 
-import com.example.anirudh.Exceptions.RequestFailureException;
-import com.example.anirudh.manager.API.GetEmployeeByIdManager;
+import com.example.anirudh.exceptions.RequestFailureException;
+import com.example.anirudh.manager.GetEmployeeByIdManager;
 import com.example.anirudh.model.Employee;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

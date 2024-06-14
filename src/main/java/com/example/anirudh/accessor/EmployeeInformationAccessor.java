@@ -1,4 +1,4 @@
-package com.example.anirudh.Accessor;
+package com.example.anirudh.accessor;
 
 import com.example.anirudh.model.Employee;
 

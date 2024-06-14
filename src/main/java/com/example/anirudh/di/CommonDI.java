@@ -1,9 +1,9 @@
 package com.example.anirudh.di;
 
-import com.example.anirudh.Accessor.EmployeeInformationAccessor;
-import com.example.anirudh.Accessor.EmployeeInformationCacheAccessor;
-import com.example.anirudh.Accessor.EmployeeInformationDBAccessor;
-import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.accessor.EmployeeInformationAccessor;
+import com.example.anirudh.accessor.EmployeeInformationCacheAccessor;
+import com.example.anirudh.accessor.EmployeeInformationDBAccessor;
+import com.example.anirudh.accessor.dao.EmployeeDAO;
 import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.cache.cacheLoader.EmployeeCacheLoader;
 import com.example.anirudh.cache.cacheUpdate.CacheUpdateRunnable;

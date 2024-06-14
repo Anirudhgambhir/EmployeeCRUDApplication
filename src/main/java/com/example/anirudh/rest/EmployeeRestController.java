@@ -1,6 +1,6 @@
 package com.example.anirudh.rest;
 
-import com.example.anirudh.Service.EmployeeService;
+import com.example.anirudh.service.EmployeeService;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;

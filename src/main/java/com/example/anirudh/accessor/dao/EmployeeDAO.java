@@ -1,4 +1,4 @@
-package com.example.anirudh.Accessor.dao;
+package com.example.anirudh.accessor.dao;
 
 import com.example.anirudh.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

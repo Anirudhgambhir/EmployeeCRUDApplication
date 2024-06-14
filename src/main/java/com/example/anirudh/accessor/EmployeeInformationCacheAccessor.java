@@ -1,7 +1,7 @@
-package com.example.anirudh.Accessor;
+package com.example.anirudh.accessor;
 
-import com.example.anirudh.Accessor.dao.EmployeeDAO;
-import com.example.anirudh.Exceptions.EmployeeNotFoundException;
+import com.example.anirudh.accessor.dao.EmployeeDAO;
+import com.example.anirudh.exceptions.EmployeeNotFoundException;
 import com.example.anirudh.cache.CacheManager;
 import com.example.anirudh.model.Employee;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +45,4 @@ public class EmployeeInformationCacheAccessor implements EmployeeInformationAcce
     public List<Employee> getAllEmployees() {
         return cacheManager.getAllEmployees();
     }
-
 }

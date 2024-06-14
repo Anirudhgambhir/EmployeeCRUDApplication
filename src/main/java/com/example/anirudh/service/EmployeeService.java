@@ -1,4 +1,4 @@
-package com.example.anirudh.Service;
+package com.example.anirudh.service;
 
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;

@@ -1,8 +1,9 @@
-package com.example.anirudh.API;
+package com.example.anirudh.api;
 
-import com.example.anirudh.Exceptions.RequestFailureException;
-import com.example.anirudh.Validator.EmployeeServiceValidator;
-import com.example.anirudh.manager.API.SaveEmployeeManager;
+import com.example.anirudh.exceptions.RequestFailureException;
+import com.example.anirudh.validator.EmployeeServiceValidator;
+import com.example.anirudh.annotations.RequestLogging;
+import com.example.anirudh.manager.SaveEmployeeManager;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,11 @@ public class SaveEmployee {
     private final EmployeeServiceValidator validate;
     private final ObjectMapper jsonObjectMapper;
 
+    @RequestLogging
     public Employee saveEmployeeAPI(Employee employee) {
         try {
             long startTime = System.currentTimeMillis();
             log.info("Starting saveEmployee");
-            log.info("Request Body :- {}", jsonObjectMapper.writeValueAsString(employee));
             validate.saveEmployeeValidator(employee);
             Employee e = saveEmployeeManager.saveEmployeeManager(employee);
             log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(e));

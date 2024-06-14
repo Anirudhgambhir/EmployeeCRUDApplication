@@ -1,6 +1,6 @@
-package com.example.anirudh.manager.API;
+package com.example.anirudh.manager;
 
-import com.example.anirudh.Accessor.EmployeeInformationAccessor;
+import com.example.anirudh.accessor.EmployeeInformationAccessor;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import org.springframework.beans.factory.annotation.Autowired;

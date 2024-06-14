@@ -1,4 +1,4 @@
-package com.example.anirudh.Exceptions;
+package com.example.anirudh.exceptions;
 
 public class EmployeeNotFoundException extends RuntimeException{
     public EmployeeNotFoundException(String message) {

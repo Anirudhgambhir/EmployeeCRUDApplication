@@ -1,6 +1,6 @@
 package com.example.anirudh.warmup;
 
-import com.example.anirudh.Service.EmployeeService;
+import com.example.anirudh.service.EmployeeService;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

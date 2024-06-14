@@ -1,6 +1,6 @@
 package com.example.anirudh.di;
 
-import com.example.anirudh.Validator.EmployeeServiceValidator;
+import com.example.anirudh.validator.EmployeeServiceValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

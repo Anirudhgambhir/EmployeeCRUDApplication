@@ -1,7 +1,7 @@
-package com.example.anirudh.manager.API;
+package com.example.anirudh.manager;
 
-import com.example.anirudh.Accessor.EmployeeInformationAccessor;
-import com.example.anirudh.Validator.EmployeeServiceValidator;
+import com.example.anirudh.accessor.EmployeeInformationAccessor;
+import com.example.anirudh.validator.EmployeeServiceValidator;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,10 +27,8 @@ public class SaveEmployeeManager {
 
     public Employee saveEmployeeManager(Employee employee) throws JsonProcessingException {
         long startTime = System.currentTimeMillis();
-        log.info("Request Body :- {}", jsonObjectMapper.writeValueAsString(employee));
         validate.saveEmployeeValidator(employee);
         Employee e = employeeInformationAccessor.saveEmployee(employee);
-        log.info("Response Body :- {}", jsonObjectMapper.writeValueAsString(employee));
         log.info("saveEmployee finished the request in {} ms", System.currentTimeMillis() - startTime);
         return e;
     }

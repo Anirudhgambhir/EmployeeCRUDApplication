@@ -1,6 +1,6 @@
-package com.example.anirudh.Validator;
+package com.example.anirudh.validator;
 
-import com.example.anirudh.Exceptions.InvalidRequestException;
+import com.example.anirudh.exceptions.InvalidRequestException;
 import com.example.anirudh.model.Employee;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.validator.routines.EmailValidator;

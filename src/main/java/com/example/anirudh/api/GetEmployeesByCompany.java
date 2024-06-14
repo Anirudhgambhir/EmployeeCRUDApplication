@@ -1,6 +1,6 @@
-package com.example.anirudh.API;
+package com.example.anirudh.api;
 
-import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.accessor.dao.EmployeeDAO;
 import com.example.anirudh.model.Employee;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

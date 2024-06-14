@@ -1,6 +1,6 @@
 package com.example.anirudh.cache.cacheLoader;
 
-import com.example.anirudh.Accessor.dao.EmployeeDAO;
+import com.example.anirudh.accessor.dao.EmployeeDAO;
 import com.example.anirudh.model.Employee;
 import com.google.common.cache.CacheLoader;
 import com.google.common.util.concurrent.ListenableFuture;

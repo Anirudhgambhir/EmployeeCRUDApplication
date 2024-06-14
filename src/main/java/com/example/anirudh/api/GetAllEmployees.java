@@ -1,7 +1,7 @@
-package com.example.anirudh.API;
+package com.example.anirudh.api;
 
-import com.example.anirudh.Exceptions.RequestFailureException;
-import com.example.anirudh.manager.API.GetAllEmployeesManager;
+import com.example.anirudh.exceptions.RequestFailureException;
+import com.example.anirudh.manager.GetAllEmployeesManager;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;

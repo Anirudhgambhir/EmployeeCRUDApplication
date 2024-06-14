@@ -1,11 +1,11 @@
-package com.example.anirudh.Service.impl;
+package com.example.anirudh.service.impl;
 
-import com.example.anirudh.API.DeleteEmployee;
-import com.example.anirudh.API.GetAllEmployees;
-import com.example.anirudh.API.GetEmployeeById;
-import com.example.anirudh.API.GetEmployeesByCompany;
-import com.example.anirudh.API.SaveEmployee;
-import com.example.anirudh.Service.EmployeeService;
+import com.example.anirudh.api.DeleteEmployee;
+import com.example.anirudh.api.GetAllEmployees;
+import com.example.anirudh.api.GetEmployeeById;
+import com.example.anirudh.api.GetEmployeesByCompany;
+import com.example.anirudh.api.SaveEmployee;
+import com.example.anirudh.service.EmployeeService;
 import com.example.anirudh.model.Employee;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeInput;
 import com.example.anirudh.model.getAllEmployeesModel.GetAllEmployeeOutput;

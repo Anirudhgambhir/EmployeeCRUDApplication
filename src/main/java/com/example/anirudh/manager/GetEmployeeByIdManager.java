@@ -1,7 +1,7 @@
-package com.example.anirudh.manager.API;
+package com.example.anirudh.manager;
 
-import com.example.anirudh.Accessor.EmployeeInformationAccessor;
-import com.example.anirudh.Validator.EmployeeServiceValidator;
+import com.example.anirudh.accessor.EmployeeInformationAccessor;
+import com.example.anirudh.validator.EmployeeServiceValidator;
 import com.example.anirudh.model.Employee;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
